@@ -50,150 +50,150 @@
   
 
     <script>
-      function read() {
+      function read(){
   //numer=document.getElementById('number').value
   //divi=document.querySelector('input[name="divi"]:checked').value;
-  renderscomp();
-  renderdiv();
-  console.log(numer + "/" + divi);
-
-  /* digits=f10(numer);
-                                    scomp= "$" + numer + " \\equiv ";
-                                    digits.forEach(base10);
-                                    scomp = scomp + "$"
-                                    document.getElementById("p1").innerHTML = scomp;
-                                    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);*/
-}
-
-function renderscomp() {// render "Scomposizione"
-  numer = document.getElementById('number').value; //prendo il numero
-  digits = f10(numer); //ottengo le sue cifre
-  scomp = "$" + numer + " = "; //compongo la scomposizione in base 10
+  renderscomp()
+  renderdiv()
+  console.log(numer+"/"+divi);
+  
+ /* digits=f10(numer);
+  scomp= "$" + numer + " \\equiv ";
   digits.forEach(base10);
-  scomp = scomp + "$"; //la finisco
+  scomp = scomp + "$"
+  document.getElementById("p1").innerHTML = scomp;
+  MathJax.Hub.Queue(["Typeset",MathJax.Hub]);*/
+}
+
+function renderscomp(){ // render "Scomposizione"
+  numer=document.getElementById('number').value //prendo il numero
+  digits=f10(numer); //ottengo le sue cifre
+  scomp= "$" + numer + " = "; //compongo la scomposizione in base 10
+  digits.forEach(base10);
+  scomp = scomp + "$" //la finisco
   document.getElementById("scomp").innerHTML = scomp; //scrivo sul DOM
-  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "scomp"]); //renderizzo
-  renderdiv();
-  renderds();
+  MathJax.Hub.Queue(["Typeset",MathJax.Hub,"scomp"]); //renderizzo
+  renderdiv()
+  renderds()
 }
 
-function renderdiv() {//render "Divisione"
-  numer = document.getElementById('number').value; //prendo il numero
-  divi = document.querySelector('input[name="divi"]:checked').value;
-  digits = f10(numer); //ottengo le sue cifre
-  scomp = "$\\frac{" + numer + "}{" + divi + "} = "; //compongo la scomposizione in base 10
-  digits.forEach(dbase10, divi);
-
-  scomp = scomp + " = " + numer / divi + "$"; //la finisco
+function renderdiv(){ //render "Divisione"
+  numer=document.getElementById('number').value //prendo il numero
+  divi=document.querySelector('input[name="divi"]:checked').value;
+  digits=f10(numer); //ottengo le sue cifre
+  scomp= "$\\frac{" + numer +"}{" +divi+ "} = "; //compongo la scomposizione in base 10
+  digits.forEach(dbase10,divi); 
+  
+  scomp = scomp + " = "+numer/divi+"$" //la finisco
   document.getElementById("fract").innerHTML = scomp; //scrivo sul DOM
-  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "fract"]); //renderizzo
-  renderdsd();
+  MathJax.Hub.Queue(["Typeset",MathJax.Hub,"fract"]); //renderizzo
+  renderdsd()
 }
-function renderdsd() {
-  numer = document.getElementById('number').value; //prendo il numero
-  divi = document.querySelector('input[name="divi"]:checked').value;
-  digits = f10(numer);
-  ds = 0;
-  for (var i in digits)
-  {ds += digits[i];} //ottengo digit sum
-  digsumdiv = "$\\frac{s_{10}(" + numer + ")}{" + divi + "} = \\frac{"; //compongo la scomposizione in base 10
+function renderdsd(){
+  numer=document.getElementById('number').value //prendo il numero
+  divi=document.querySelector('input[name="divi"]:checked').value;
+  digits=f10(numer);
+  ds =0;
+  for(var i in digits) 
+    { ds += digits[i]; } //ottengo digit sum
+  digsumdiv= "$\\frac{s_{10}(" + numer + ")}{"+ divi+"} = \\frac{"; //compongo la scomposizione in base 10
   digits.forEach(digitsumdivmulti); //compongo la frazione iterando la lista di cifre
-  digsumdiv = digsumdiv + "}{" + divi + "} = ";
-  digits.forEach(digitsumdivsing, divi); //frazione per ogni singolo addendo
-  digsumdiv = digsumdiv + " = " + ds / divi + "$";
+  digsumdiv = digsumdiv + "}{" + divi + "} = "
+  digits.forEach(digitsumdivsing,divi); //frazione per ogni singolo addendo
+  digsumdiv = digsumdiv + " = " +ds/divi + "$"
   document.getElementById("dsd").innerHTML = digsumdiv;
-  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "dsd"]);
+  MathJax.Hub.Queue(["Typeset",MathJax.Hub,"dsd"]);
 }
 
-function digitsumdivmulti(value, index, array) {
-  if (value != 0) {
-    digsumdiv = digsumdiv + value;
-    if (array.length - index > 1 && array[index + 1] != 0) {//per non stampare 10^0
-      digsumdiv = digsumdiv + " + ";
-    }
+function digitsumdivmulti(value, index, array){ 
+   if (value!=0){
+  digsumdiv = digsumdiv + value  ; 
+   if ((array.length - index)>1 && array[index+1]!=0){ //per non stampare 10^0
+      digsumdiv = digsumdiv +  " + "
+  }
   }
   //else{digsumdiv = digsumdiv +  " + "}
 }
 
-function digitsumdivsing(value, index, array) {//compongo la Digit Sum Division con divisione per ogni addendo
-  if (value != 0) {
-    digsumdiv = digsumdiv + "\\frac{" + value + "}{" + this + "}";
-    if (array.length - index > 1 && array[index + 1] != 0) {//per non stampare 10^0
-      digsumdiv = digsumdiv + " + ";
+function digitsumdivsing (value, index, array){ //compongo la Digit Sum Division con divisione per ogni addendo
+  if (value!=0){
+    digsumdiv = digsumdiv + "\\frac{" + value + "}{" + this + "}"; 
+     if ((array.length -index)>1 && array[index+1]!=0){ //per non stampare 10^0
+        digsumdiv = digsumdiv +  " + "
     }
   }
 }
 
-function renderds() {
-  numer = document.getElementById('number').value; //prendo il numero
-  digits = f10(numer); //ottengo le sue cifre
-  ds = 0;
-  for (var i in digits)
-  {ds += digits[i];} //digit sum
-  digsum = "$s_{10}(" + numer + ") = "; //compongo la scomposizione in base 10
+function renderds(){
+  numer=document.getElementById('number').value //prendo il numero
+  digits=f10(numer); //ottengo le sue cifre
+  ds =0;
+  for(var i in digits) 
+    { ds += digits[i]; }  //digit sum
+  digsum= "$s_{10}(" + numer + ") = "; //compongo la scomposizione in base 10
   digits.forEach(digitsum);
-  digsum = digsum + " = " + ds + "$";
+  digsum = digsum + " = " +ds + "$"
   document.getElementById("ds").innerHTML = digsum;
-  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "ds"]);
+  MathJax.Hub.Queue(["Typeset",MathJax.Hub,"ds"]);
 }
 
-function digitsum(value, index, array) {
-  if (value != 0) {
-    digsum = digsum + value;
-    if (array.length - index > 1 && array[index + 1] != 0) {//per non stampare 10^0
-      digsum = digsum + " + ";
-    }
-  }}
+function digitsum(value, index, array){
+  if (value!=0){
+	  digsum = digsum + value  ; 
+   if ((array.length -index)>1 && array[index+1]!=0){ //per non stampare 10^0
+      digsum = digsum +  " + "
+  }
+}}
 
-function divdigitsum(value, index, array) {
-  if (value != 0) {
-    digsum = digsum + "\\frac{" + value + "}{" + this + "}";
-    if (array.length - index > 1 && array[index + 1] != 0) {//per non stampare 10^0
-      digsum = digsum + "*10^" + (array.length - index - 1) + " + ";
-    }
+function divdigitsum(value, index, array){
+  if (value!=0){
+  digsum = digsum + "\\frac{" + value + "}{" + this + "}" ; 
+  if ((array.length -index)>1 && array[index+1]!=0){ //per non stampare 10^0
+    digsum = digsum + "*10^" + (array.length -index-1) + " + "
   }
 }
-
-function dbase10(value, index, array) {
-  if (value != 0) {
-    scomp = scomp + "\\frac{" + value + "}{" + this + "}";
-    if (array.length - index > 1 && array[index + 1] != 0) {//per non stampare 10^0
-      scomp = scomp + "*10^" + (array.length - index - 1) + " + ";
-    }}
 }
 
-function base10(value, index, array) {
-  if (value != 0) {
-    scomp = scomp + value;
-    if (array.length - index > 1 && array[index + 1] != 0) {//per non stampare 10^0
-      scomp = scomp + "*10^" + (array.length - index - 1) + " + ";
-    }
+function dbase10(value, index, array){
+   if (value!=0){
+	   scomp = scomp + "\\frac{" + value + "}{" + this + "}" ; 
+  if ((array.length -index)>1 && array[index+1]!=0){ //per non stampare 10^0
+    scomp = scomp + "*10^" + (array.length -index-1) + " + "
+   }}
+}
+
+function base10(value, index, array){
+	if (value!=0){
+   scomp = scomp + value  ; 
+   if ((array.length -index)>1 && array[index+1]!=0){ //per non stampare 10^0
+      scomp = scomp + "*10^" + (array.length -index-1) + " + "
   }
 }
-
-
-function f10(n) {//return ordered list of digits from the most significant to the least
-  maxk = Math.trunc(Math.log10(n));
-  digits = [];
-  for (i = maxk; i >= 0; i--) {if (window.CP.shouldStopExecution(0)) break;
-    dig = Math.trunc(n / Math.pow(10, i));
-    digits.push(dig);
-    n = n - dig * Math.pow(10, i);
-  }window.CP.exitedLoop(0);
-  return digits;
 }
 
+
+function f10(n){ //return ordered list of digits from the most significant to the least
+  maxk=Math.trunc(Math.log10(n))
+  digits= []
+  for (i = maxk; i >= 0; i--) { 
+    dig=Math.trunc(n/Math.pow(10, i))
+    digits.push(dig)
+    n=n-dig*Math.pow(10,i)
+  }
+  return digits
+}
+ 
 /*
-    n=327
-    maxk=Math.trunc(Math.log10(n))
-    digits= []
-    for (i = maxk; i >= 0; i--) { 
-      dig=Math.trunc(n/Math.pow(10, i))
-      digits.push(dig)
-      n=n-dig*Math.pow(10,i)
-      console.log("n="+n+" i="+i+" maxk="+maxk+" fig= "+Math.trunc(n/Math.pow(10, i)))
-    }*/
-   
+  n=327
+  maxk=Math.trunc(Math.log10(n))
+  digits= []
+  for (i = maxk; i >= 0; i--) { 
+    dig=Math.trunc(n/Math.pow(10, i))
+    digits.push(dig)
+    n=n-dig*Math.pow(10,i)
+    console.log("n="+n+" i="+i+" maxk="+maxk+" fig= "+Math.trunc(n/Math.pow(10, i)))
+  }*/
+
     </script>
 
 
